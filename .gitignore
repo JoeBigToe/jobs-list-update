@@ -1,0 +1,4 @@
+.vscode
+.mockData
+httpTrigger/node_modules
+timeTrigger/node_modules
