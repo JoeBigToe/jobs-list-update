@@ -7,13 +7,13 @@ var dbHandler;
 
 
 // Uri's for Azure Cosmos DB
-var user = "jobs-list";
-var pass = "z2We6g4uL66Z4ccr2IyQ4AYxXPhnUWLuOqEDJQBdU1GumN5WefU221U8BxADcWWhVv8iyiaejzUZNVlYlMTg9g==";
-var mgdburl = "mongodb://jobs-list.documents.azure.com:10255/?ssl=true&replicaSet=globaldb";
+var user = process.env["user"];
+var pass = process.env["pass"];
+var mgdburl = process.env["mgdburl"];
 
 // Uri's for nofluffjobs
-var nfjall = "https://nofluffjobs.com/api/posting?criteria=";
-var nfjone = "https://nofluffjobs.com/api/postingNew/";
+var jobsPortalAll = process.env["jobsPortalAll"];
+var jobsPortalOne = process.env["jobsPortalOne"];
 
 // Global flags used to synchronize code
 var newJobsReady = false;
@@ -61,7 +61,7 @@ var processOpenAndClosedJobs = function (context){
             // Fecth detailed information about this job
             request(
                 {
-                    url: nfjone+job.id,
+                    url: jobsPortalOne+job.id,
                     json: true
                 },
                 function(err, body, response){
@@ -180,7 +180,7 @@ module.exports = function (context, myTimer) {
     // Gets Ids of currently active jobs
     request(
         {
-            url: nfjall,
+            url: jobsPortalAll,
             json: true
         }, 
         function(error, body, response){
