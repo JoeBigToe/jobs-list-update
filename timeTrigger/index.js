@@ -173,7 +173,8 @@ module.exports = function (context, myTimer) {
 
     if(myTimer.isPastDue)
     {
-        context.log('JavaScript is running late!');
+        context.log('JavaScript is running late! Aborting function');
+        context.done();
     }
     
     // Gets Ids of currently active jobs
