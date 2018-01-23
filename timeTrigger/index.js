@@ -106,7 +106,6 @@ var processOpenAndClosedJobs = function (context){
                     if (err) throw err;
 
                     if((closedJobs.length-1) === closedJobs.indexOf(job)) {allClosedJobsInserted=true;}
-                    context.log(`Job inserted into deleted: ${job.id}`);
                 }
 
             );
