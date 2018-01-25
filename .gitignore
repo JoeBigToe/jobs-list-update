@@ -2,3 +2,5 @@
 .mockData
 src/httpTrigger/node_modules
 src/timeTrigger/node_modules
+
+db/

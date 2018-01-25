@@ -1,6 +1,3 @@
-process.env.jobsPortalAll = 'https://nofluffjobs.com/api/posting?criteria=';
-process.env.jobsPortalOne = 'https://nofluffjobs.com/api/postingNew/';
-
 var AzureFunction = require('./index');
 
 // Local development query and body params

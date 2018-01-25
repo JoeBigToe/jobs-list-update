@@ -87,8 +87,42 @@ var processOpenAndClosedJobs = function (context){
         // 1. Copy this job element from postings collection to closed
         // 2. Delete this job element from postings
         closedJobs.forEach(job => {
+            // Find this document in postings
+            postingsDb.find({id: job.id}).toArray(
+                (err, result) => {
+                    if (err) throw err;
+
+                    result[0].closed = new Date().toDateString();
+                    
+                    // If closed job was found
+                    // Then First insert it in closed collection
+                    closedDb.insertOne( 
+                        result[0],
+                        (err) => {
+                            if (err) throw err;
+        
+                            if((closedJobs.length-1) === closedJobs.indexOf(job)) {allClosedJobsInserted=true;}
+
+                            // If closed job was succesfully inserted into closed
+                            // Then delete it from postings
+                            postingsDb.deleteOne(
+                                {id: job.id},
+                                (err) => {
+                                    if (err) throw err;
+
+                                    if((closedJobs.length-1) === closedJobs.indexOf(job)) {allClosedJobsRemoved=true;}
+                                    context.log(`Job moved from postings to closed: ${job.id}`);
+                                }
+                            );
+
+                        }
+        
+                    );
+                }
+            );
+            
             // Remove closed jobs from collection 'postings'
-            postingsDb.deleteOne(
+            /* postingsDb.deleteOne(
                 {id: job.id},
                 function(err, obj){
                     if (err) throw err;
@@ -97,9 +131,9 @@ var processOpenAndClosedJobs = function (context){
                     context.log(`Job removed from postings: ${job.id}`);
                 }
             );
-
+ */
             // Insert closed jobs into collection 'closed'
-            job.closed = new Date().toDateString();
+           /*  job.closed = new Date().toDateString();
             closedDb.insertOne(
                 job,
                 function(err, obj){
@@ -108,7 +142,7 @@ var processOpenAndClosedJobs = function (context){
                     if((closedJobs.length-1) === closedJobs.indexOf(job)) {allClosedJobsInserted=true;}
                 }
 
-            );
+            ); */
         });
 
     }
