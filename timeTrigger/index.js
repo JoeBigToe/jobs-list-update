@@ -9,7 +9,7 @@ var dbHandler;
 // Uri's for Azure Cosmos DB
 var user = process.env["user"];
 var pass = process.env["pass"];
-var mgdburl = process.env["mgdburl"];
+var mgdburl = process.env["mgdburl"] || `mongodb://${process.env["MONGODBURL_PORT_27017_TCP_ADDR"]}:${process.env["MONGODBURL_PORT_27017_TCP_PORT"]}`;
 
 // Uri's for nofluffjobs
 var jobsPortalAll = process.env["jobsPortalAll"];
@@ -169,6 +169,7 @@ var workWithJobData = function (context){
 
 module.exports = function (context, myTimer) {
     var timeStamp = new Date().toISOString();
+    var mgOptions = (user && pass) ? {auth: {user: user, password: pass,}} : {}
 
     if(myTimer.isPastDue)
     {
@@ -195,10 +196,7 @@ module.exports = function (context, myTimer) {
     // Once the function is ready, the flag storedJobsReady turns to True
     mg.connect(
         mgdburl,
-        {auth: {
-            user: user,
-            password: pass,
-        }},
+        mgOptions,
         function (err, db){
             if (err) throw err;
             
