@@ -9,7 +9,7 @@ var dbHandler;
 // Uri's for Azure Cosmos DB
 var user = process.env["user"];
 var pass = process.env["pass"];
-var mgdburl = process.env["mgdburl"] || `mongodb://${process.env["MONGODBURL_PORT_27017_TCP_ADDR"]}:${process.env["MONGODBURL_PORT_27017_TCP_PORT"]}`;
+var mgdburl = process.env["mgdburl"] || `mongodb://${process.env["MONGO_TEST_PORT_27017_TCP_ADDR"]}:${process.env["MONGO_TEST_PORT_27017_TCP_PORT"]}`;
 
 // Uri's for nofluffjobs
 var jobsPortalAll = process.env["jobsPortalAll"];
@@ -205,7 +205,7 @@ module.exports = function (context, myTimer) {
             postingsDb = db.db("jobs").collection("postings");
             closedDb = db.db("jobs").collection("closed");
             
-            postingsDb.find({ projection: {_id: 0, id: 1}} ).toArray(
+            postingsDb.find({}, { projection: {_id: 0, id: 1}} ).toArray(
                 function(err, result){
                     if (err) throw err;
 
