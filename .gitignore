@@ -1,5 +1,4 @@
 .vscode
 .mockData
-httpTrigger/node_modules
-timeTrigger/node_modules
-mongodb
+src/httpTrigger/node_modules
+src/timeTrigger/node_modules

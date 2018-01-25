@@ -205,7 +205,7 @@ module.exports = function (context, myTimer) {
             postingsDb = db.db("jobs").collection("postings");
             closedDb = db.db("jobs").collection("closed");
             
-            postingsDb.find({}).toArray(
+            postingsDb.find({ projection: {_id: 0, id: 1}} ).toArray(
                 function(err, result){
                     if (err) throw err;
 
